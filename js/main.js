@@ -178,7 +178,7 @@ window.addEventListener("load", () => {
 });
 /* =========================================================
    MAIN.JS
-   Part 2 - Gallery
+   Part 2 - Premium Gallery
 ========================================================= */
 
 // =========================================================
@@ -189,22 +189,25 @@ const galleryGrid = document.getElementById("galleryGrid");
 
 const TOTAL_IMAGES = 27;
 
-const images = [];
+let images = [];
 
 // =========================================================
-// Create Gallery
+// Build Gallery
 // =========================================================
 
-function createGallery() {
+function buildGallery() {
 
     if (!galleryGrid) return;
 
     galleryGrid.innerHTML = "";
 
+    images = [];
+
     for (let i = 1; i <= TOTAL_IMAGES; i++) {
 
         const card = document.createElement("div");
-        card.className = "photo-card";
+
+        card.className = "photo-card hidden";
 
         const img = document.createElement("img");
 
@@ -214,41 +217,19 @@ function createGallery() {
 
         img.loading = "lazy";
 
-        img.dataset.index = i - 1;
+        img.dataset.index = images.length;
 
-        // ซ่อนรูปไว้ก่อน
-        img.style.opacity = "0";
+        img.draggable = false;
 
-        // โหลดสำเร็จ
         img.addEventListener("load", () => {
 
-            img.animate(
-                [
-                    {
-                        opacity:0,
-                        transform:"scale(.95)"
-                    },
-                    {
-                        opacity:1,
-                        transform:"scale(1)"
-                    }
-                ],
-                {
-                    duration:700,
-                    easing:"ease"
-                }
-            );
-
-            img.style.opacity = "1";
+            card.classList.add("loaded");
 
         });
 
-        // โหลดไม่สำเร็จ
         img.addEventListener("error", () => {
 
-            console.warn(`Image not found : photo${i}.jpg`);
-
-            card.style.display = "none";
+            card.remove();
 
         });
 
@@ -260,307 +241,99 @@ function createGallery() {
 
     }
 
+    observeGallery();
+
 }
 
 // =========================================================
-// Lazy Fade Animation
+// Fade In
 // =========================================================
 
-const imageObserver = new IntersectionObserver((entries)=>{
+const galleryObserver = new IntersectionObserver(
+
+(entries)=>{
 
     entries.forEach(entry=>{
 
         if(entry.isIntersecting){
 
-            entry.target.classList.add("visible");
+            entry.target.classList.add("show");
+
+            galleryObserver.unobserve(entry.target);
 
         }
 
     });
 
-},{
+},
+
+{
+
     threshold:.15
-});
+
+}
+
+);
 
 // =========================================================
-// Observe Images
+// Observe
 // =========================================================
 
-function observeImages(){
+function observeGallery(){
 
-    document
-    .querySelectorAll(".photo-card")
-    .forEach(card=>{
+    document.querySelectorAll(".photo-card").forEach(card=>{
 
-        imageObserver.observe(card);
+        galleryObserver.observe(card);
 
     });
 
 }
 
 // =========================================================
-// Initialize Gallery
+// Hover Effect
+// =========================================================
+
+document.addEventListener("mousemove",(e)=>{
+
+    const card = e.target.closest(".photo-card");
+
+    if(!card) return;
+
+    const rect = card.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+
+    const y = e.clientY - rect.top;
+
+    const rotateY = (x - rect.width/2)/22;
+
+    const rotateX = -(y - rect.height/2)/22;
+
+    card.style.transform =
+
+    `perspective(900px)
+     rotateX(${rotateX}deg)
+     rotateY(${rotateY}deg)
+     translateY(-8px)`;
+
+});
+
+document.addEventListener("mouseleave",()=>{
+
+    document.querySelectorAll(".photo-card").forEach(card=>{
+
+        card.style.transform="";
+
+    });
+
+});
+
+// =========================================================
+// Initialize
 // =========================================================
 
 window.addEventListener("load",()=>{
 
-    createGallery();
-
-    observeImages();
+    buildGallery();
 
 });
-
-// =========================================================
-// Refresh Gallery (Future Use)
-// =========================================================
-
-function refreshGallery(){
-
-    images.length = 0;
-
-    createGallery();
-
-    observeImages();
-
-}
-/* =========================================================
-   MAIN.JS
-   Part 3 - Premium Lightbox
-========================================================= */
-
-// =========================================================
-// Elements
-// =========================================================
-
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-
-const closeLightbox =
-document.getElementById("closeLightbox");
-
-const prevImage =
-document.getElementById("prevImage");
-
-const nextImage =
-document.getElementById("nextImage");
-
-let currentImage = 0;
-
-// =========================================================
-// Open
-// =========================================================
-
-function openLightbox(index){
-
-    if(!lightbox) return;
-
-    currentImage = index;
-
-    updateLightbox();
-
-    lightbox.classList.add("show");
-
-    document.body.style.overflow = "hidden";
-
-}
-
-// =========================================================
-// Close
-// =========================================================
-
-function closeBox(){
-
-    lightbox.classList.remove("show");
-
-    document.body.style.overflow = "";
-
-}
-
-// =========================================================
-// Update Image
-// =========================================================
-
-function updateLightbox(){
-
-    if(images.length===0) return;
-
-    lightboxImage.style.opacity = 0;
-
-    setTimeout(()=>{
-
-        lightboxImage.src =
-            images[currentImage].src;
-
-        lightboxImage.alt =
-            images[currentImage].alt;
-
-        lightboxImage.style.opacity = 1;
-
-    },180);
-
-}
-
-// =========================================================
-// Next
-// =========================================================
-
-function nextPhoto(){
-
-    currentImage++;
-
-    if(currentImage>=images.length){
-
-        currentImage=0;
-
-    }
-
-    updateLightbox();
-
-}
-
-// =========================================================
-// Previous
-// =========================================================
-
-function previousPhoto(){
-
-    currentImage--;
-
-    if(currentImage<0){
-
-        currentImage=
-        images.length-1;
-
-    }
-
-    updateLightbox();
-
-}
-
-// =========================================================
-// Click Gallery
-// =========================================================
-
-document.addEventListener("click",(e)=>{
-
-    if(e.target.matches(".photo-card img")){
-
-        openLightbox(
-
-            Number(e.target.dataset.index)
-
-        );
-
-    }
-
-});
-
-// =========================================================
-// Buttons
-// =========================================================
-
-if(nextImage){
-
-    nextImage.onclick = nextPhoto;
-
-}
-
-if(prevImage){
-
-    prevImage.onclick = previousPhoto;
-
-}
-
-if(closeLightbox){
-
-    closeLightbox.onclick = closeBox;
-
-}
-
-// =========================================================
-// Click Background Close
-// =========================================================
-
-if(lightbox){
-
-    lightbox.addEventListener("click",(e)=>{
-
-        if(e.target===lightbox){
-
-            closeBox();
-
-        }
-
-    });
-
-}
-
-// =========================================================
-// Keyboard
-// =========================================================
-
-document.addEventListener("keydown",(e)=>{
-
-    if(!lightbox.classList.contains("show")) return;
-
-    switch(e.key){
-
-        case "ArrowRight":
-
-            nextPhoto();
-
-            break;
-
-        case "ArrowLeft":
-
-            previousPhoto();
-
-            break;
-
-        case "Escape":
-
-            closeBox();
-
-            break;
-
-    }
-
-});
-
-// =========================================================
-// Mobile Swipe
-// =========================================================
-
-let touchStartX = 0;
-
-let touchEndX = 0;
-
-if(lightbox){
-
-    lightbox.addEventListener("touchstart",(e)=>{
-
-        touchStartX =
-        e.changedTouches[0].screenX;
-
-    });
-
-    lightbox.addEventListener("touchend",(e)=>{
-
-        touchEndX =
-        e.changedTouches[0].screenX;
-
-        if(touchStartX-touchEndX>50){
-
-            nextPhoto();
-
-        }
-
-        if(touchEndX-touchStartX>50){
-
-            previousPhoto();
-
-        }
-
-    });
-
-}
