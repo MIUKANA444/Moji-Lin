@@ -1,71 +1,151 @@
 /* =========================================================
    MAIN.JS
-   Part 1 - Intro + Love Letter
+   Part 3.1
+   DOM + Variables + Global State
 ========================================================= */
 
-// =========================================================
-// Elements
-// =========================================================
+"use strict";
+
+/* =========================================================
+   DOM Elements
+========================================================= */
 
 const introText = document.getElementById("typing");
+
 const openBtn = document.getElementById("openBtn");
+
 const overlay = document.getElementById("letterOverlay");
+
 const closeBtn = document.getElementById("closeLetter");
+
 const letterText = document.getElementById("letterText");
 
-// =========================================================
-// Intro
-// =========================================================
+const loader = document.getElementById("loader");
+
+const bgMusic = document.getElementById("bgMusic");
+
+const musicBtn = document.getElementById("musicBtn");
+
+const backToTop = document.getElementById("backToTop");
+
+const cursorGlow = document.getElementById("cursorGlow");
+
+const galleryGrid = document.getElementById("galleryGrid");
+
+const lightbox = document.getElementById("lightbox");
+
+const lightboxImage = document.getElementById("lightboxImage");
+
+const closeLightboxBtn =
+    document.getElementById("closeLightbox");
+
+const nextImageBtn =
+    document.getElementById("nextImage");
+
+const prevImageBtn =
+    document.getElementById("prevImage");
+
+/* =========================================================
+   Constants
+========================================================= */
+
+const TOTAL_IMAGES = 27;
+
+const TYPE_SPEED = 35;
+
+const LETTER_SPEED = 22;
+
+/* =========================================================
+   Intro Text
+========================================================= */
 
 const intro =
-"Every moment with you becomes my favorite memory. ❤️";
+    "Every moment with you becomes my favorite memory. ❤️";
 
-// =========================================================
-// Love Letter
-// =========================================================
+/* =========================================================
+   Love Letter
+========================================================= */
 
 const message = `ถึงพี่โมจิ ❤️
 
 ขอบคุณที่เข้ามาเป็นช่วงเวลาที่ดีที่สุดในชีวิตของผมนะ
 
 ตั้งแต่วันที่เราได้รู้จักกัน
+
 ทุกช่วงเวลาที่ได้หัวเราะ
+
 ได้คุย
+
 ได้ใช้เวลาอยู่ด้วยกัน
 
 มันกลายเป็นความทรงจำที่มีค่ามากที่สุดสำหรับผม
 
 แม้บางครั้งเราจะมีเรื่องให้ไม่เข้าใจกัน
+
 หรือทำให้กันเสียใจ
 
 แต่ไม่เคยมีวันไหน
+
 ที่ผมหยุดรักพี่เลย
 
 ผมอาจไม่ใช่คนที่สมบูรณ์แบบ
 
 แต่ผมจะพยายามเป็นคนที่ดีขึ้น
+
 เพื่อพี่
+
 และเพื่อความรักของเราทั้งสองคน
 
 ขอบคุณที่ยังอยู่กับผม
 
 รักพี่โมจิที่สุด ❤️`;
 
-// =========================================================
-// Type Writer
-// =========================================================
+/* =========================================================
+   Global State
+========================================================= */
 
-function typeWriter(element, text, speed = 40) {
+let images = [];
 
-    if (!element) return;
+let currentImageIndex = 0;
+
+let lightboxAnimating = false;
+
+let touchStartX = 0;
+
+/* =========================================================
+   Utility
+========================================================= */
+
+const body = document.body;
+
+/* =========================================================
+   End Part 3.1
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.2
+   TypeWriter + Intro + Love Letter + Event Binding
+========================================================= */
+
+/* =========================================================
+   TypeWriter
+========================================================= */
+
+function typeWriter(element, text, speed = TYPE_SPEED){
+
+    if(!element) return;
 
     element.textContent = "";
 
     let index = 0;
 
-    function typing() {
+    function typing(){
 
-        if (index >= text.length) return;
+        if(index >= text.length){
+
+            return;
+
+        }
 
         element.textContent += text.charAt(index);
 
@@ -79,209 +159,383 @@ function typeWriter(element, text, speed = 40) {
 
 }
 
-// =========================================================
-// Intro
-// =========================================================
+/* =========================================================
+   Intro
+========================================================= */
 
-function startIntro() {
+function startIntro(){
 
-    typeWriter(introText, intro, 35);
+    typeWriter(
 
-}
+        introText,
 
-// =========================================================
-// Letter
-// =========================================================
+        intro,
 
-function startLetter() {
+        TYPE_SPEED
 
-    typeWriter(letterText, message, 25);
+    );
 
 }
 
-// =========================================================
-// Open Letter
-// =========================================================
+/* =========================================================
+   Love Letter
+========================================================= */
 
-if (openBtn) {
+function startLetter(){
 
-    openBtn.addEventListener("click", () => {
+    typeWriter(
 
-        overlay.classList.add("show");
+        letterText,
 
-        document.body.style.overflow = "hidden";
+        message,
 
-        startLetter();
+        LETTER_SPEED
 
-    });
+    );
 
 }
 
-// =========================================================
-// Close Letter
-// =========================================================
+/* =========================================================
+   Open Letter
+========================================================= */
 
-function closeLetter() {
+function openLetter(){
+
+    if(!overlay) return;
+
+    overlay.classList.add("show");
+
+    body.style.overflow = "hidden";
+
+    startLetter();
+
+}
+
+/* =========================================================
+   Close Letter
+========================================================= */
+
+function closeLetter(){
+
+    if(!overlay) return;
 
     overlay.classList.remove("show");
 
-    document.body.style.overflow = "";
+    body.style.overflow = "";
 
 }
 
-if (closeBtn) {
+/* =========================================================
+   Events
+========================================================= */
 
-    closeBtn.addEventListener("click", closeLetter);
+openBtn?.addEventListener(
 
-}
+    "click",
 
-// =========================================================
-// Close when clicking background
-// =========================================================
+    openLetter
 
-if (overlay) {
+);
 
-    overlay.addEventListener("click", (e) => {
+closeBtn?.addEventListener(
 
-        if (e.target === overlay) {
+    "click",
+
+    closeLetter
+
+);
+
+overlay?.addEventListener(
+
+    "click",
+
+    (event)=>{
+
+        if(event.target === overlay){
 
             closeLetter();
 
         }
 
-    });
+    }
 
-}
+);
 
-// =========================================================
-// ESC Close
-// =========================================================
+/* =========================================================
+   Keyboard
+========================================================= */
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener(
 
-    if (e.key === "Escape") {
+    "keydown",
 
-        closeLetter();
+    (event)=>{
+
+        if(
+
+            event.key === "Escape" &&
+
+            overlay?.classList.contains("show")
+
+        ){
+
+            closeLetter();
+
+        }
 
     }
 
-});
+);
 
-// =========================================================
-// Start
-// =========================================================
-
-window.addEventListener("load", () => {
-
-    startIntro();
-
-});
+/* =========================================================
+   End Part 3.2
+========================================================= */
 /* =========================================================
    MAIN.JS
-   Part 2 - Premium Gallery
+   Part 3.3
+   Gallery Builder
 ========================================================= */
 
-// =========================================================
-// Gallery
-// =========================================================
+/* =========================================================
+   Build Gallery
+========================================================= */
 
-const galleryGrid = document.getElementById("galleryGrid");
+function buildGallery(){
 
-const TOTAL_IMAGES = 27;
-
-let images = [];
-
-// =========================================================
-// Build Gallery
-// =========================================================
-
-function buildGallery() {
-
-    if (!galleryGrid) return;
+    if(!galleryGrid) return;
 
     galleryGrid.innerHTML = "";
 
     images = [];
 
-    for (let i = 1; i <= TOTAL_IMAGES; i++) {
+    const fragment = document.createDocumentFragment();
+
+    for(let i = 1; i <= TOTAL_IMAGES; i++){
 
         const card = document.createElement("div");
 
         card.className = "photo-card hidden";
 
-        const img = document.createElement("img");
+        const image = document.createElement("img");
 
-        img.src = `assets/images/photo${i}.jpg`;
+        image.src = `assets/images/photo${i}.jpg`;
 
-        img.alt = `Memory ${i}`;
+        image.alt = `Memory ${i}`;
 
-        img.loading = "lazy";
+        image.loading = "lazy";
 
-        img.dataset.index = images.length;
+        image.draggable = false;
 
-        img.draggable = false;
+        image.decoding = "async";
 
-        img.addEventListener("load", () => {
+        image.dataset.index = i - 1;
 
-            card.classList.add("loaded");
+        image.tabIndex = 0;
 
-        });
+        image.setAttribute(
 
-        img.addEventListener("error", () => {
+            "role",
 
-            card.remove();
+            "button"
 
-        });
+        );
 
-        card.appendChild(img);
+        image.setAttribute(
 
-        galleryGrid.appendChild(card);
+            "aria-label",
 
-        images.push(img);
+            `Open Memory ${i}`
+
+        );
+
+        /* ---------------------------------
+           Image Loaded
+        --------------------------------- */
+
+        image.addEventListener(
+
+            "load",
+
+            ()=>{
+
+                card.classList.add("loaded");
+
+            }
+
+        );
+
+        /* ---------------------------------
+           Image Error
+        --------------------------------- */
+
+        image.addEventListener(
+
+            "error",
+
+            ()=>{
+
+                console.warn(
+
+                    `Cannot load photo${i}.jpg`
+
+                );
+
+                card.remove();
+
+            }
+
+        );
+
+        card.appendChild(image);
+
+        fragment.appendChild(card);
+
+        images.push(image);
 
     }
+
+    galleryGrid.appendChild(fragment);
 
     observeGallery();
 
 }
 
-// =========================================================
-// Fade In
-// =========================================================
+/* =========================================================
+   Preload Images
+========================================================= */
 
-const galleryObserver = new IntersectionObserver(
+function preloadImages(limit = 10){
 
-(entries)=>{
+    const max = Math.min(
 
-    entries.forEach(entry=>{
+        limit,
 
-        if(entry.isIntersecting){
+        TOTAL_IMAGES
 
-            entry.target.classList.add("show");
+    );
 
-            galleryObserver.unobserve(entry.target);
+    for(let i = 1; i <= max; i++){
 
-        }
+        const preload = new Image();
 
-    });
+        preload.src =
 
-},
+            `assets/images/photo${i}.jpg`;
 
-{
-
-    threshold:.15
+    }
 
 }
 
-);
+/* =========================================================
+   Refresh Gallery
+========================================================= */
 
-// =========================================================
-// Observe
-// =========================================================
+function refreshGallery(){
+
+    buildGallery();
+
+}
+
+/* =========================================================
+   End Part 3.3
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.4
+   Gallery Observer + Scroll Animation
+========================================================= */
+
+/* =========================================================
+   Gallery Observer
+========================================================= */
+
+const galleryObserver =
+
+    "IntersectionObserver" in window
+
+        ? new IntersectionObserver(
+
+            (entries)=>{
+
+                entries.forEach((entry)=>{
+
+                    if(!entry.isIntersecting){
+
+                        return;
+
+                    }
+
+                    entry.target.classList.remove(
+
+                        "hidden"
+
+                    );
+
+                    entry.target.classList.add(
+
+                        "show"
+
+                    );
+
+                    galleryObserver.unobserve(
+
+                        entry.target
+
+                    );
+
+                });
+
+            },
+
+            {
+
+                threshold:0.15,
+
+                rootMargin:"0px 0px -40px 0px"
+
+            }
+
+        )
+
+        : null;
+
+/* =========================================================
+   Observe Gallery
+========================================================= */
 
 function observeGallery(){
 
-    document.querySelectorAll(".photo-card").forEach(card=>{
+    const cards =
+
+        document.querySelectorAll(
+
+            ".photo-card"
+
+        );
+
+    if(!galleryObserver){
+
+        cards.forEach((card)=>{
+
+            card.classList.remove(
+
+                "hidden"
+
+            );
+
+            card.classList.add(
+
+                "show"
+
+            );
+
+        });
+
+        return;
+
+    }
+
+    cards.forEach((card)=>{
 
         galleryObserver.observe(card);
 
@@ -289,67 +543,249 @@ function observeGallery(){
 
 }
 
-// =========================================================
-// Hover Effect
-// =========================================================
-
-document.addEventListener("mousemove",(e)=>{
-
-    const card = e.target.closest(".photo-card");
-
-    if(!card) return;
-
-    const rect = card.getBoundingClientRect();
-
-    const x = e.clientX - rect.left;
-
-    const y = e.clientY - rect.top;
-
-    const rotateY = (x - rect.width/2)/22;
-
-    const rotateX = -(y - rect.height/2)/22;
-
-    card.style.transform =
-
-    `perspective(900px)
-     rotateX(${rotateX}deg)
-     rotateY(${rotateY}deg)
-     translateY(-8px)`;
-
-});
-
-document.addEventListener("mouseleave",()=>{
-
-    document.querySelectorAll(".photo-card").forEach(card=>{
-
-        card.style.transform="";
-
-    });
-
-});
-
-// =========================================================
-// Initialize
-// =========================================================
-
-window.addEventListener("load",()=>{
-
-    buildGallery();
-
-});
 /* =========================================================
-   MAIN.JS
-   Part 3 - Premium Lightbox
+   Reveal All
 ========================================================= */
 
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
+function revealGallery(){
 
-const closeLightboxBtn = document.getElementById("closeLightbox");
-const nextImageBtn = document.getElementById("nextImage");
-const prevImageBtn = document.getElementById("prevImage");
+    document
 
-let currentImageIndex = 0;
+        .querySelectorAll(".photo-card")
+
+        .forEach((card)=>{
+
+            card.classList.remove(
+
+                "hidden"
+
+            );
+
+            card.classList.add(
+
+                "show"
+
+            );
+
+        });
+
+}
+
+/* =========================================================
+   Reset Animation
+========================================================= */
+
+function resetGalleryAnimation(){
+
+    document
+
+        .querySelectorAll(".photo-card")
+
+        .forEach((card)=>{
+
+            card.classList.remove(
+
+                "show"
+
+            );
+
+            card.classList.add(
+
+                "hidden"
+
+            );
+
+        });
+
+    observeGallery();
+
+}
+
+/* =========================================================
+   End Part 3.4
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.5
+   Gallery Interaction + Lightbox Preparation
+========================================================= */
+
+/* =========================================================
+   Gallery Hover
+========================================================= */
+
+galleryGrid?.addEventListener(
+
+    "mousemove",
+
+    (event)=>{
+
+        const card =
+
+            event.target.closest(".photo-card");
+
+        if(!card) return;
+
+        const rect =
+
+            card.getBoundingClientRect();
+
+        const x =
+
+            event.clientX - rect.left;
+
+        const y =
+
+            event.clientY - rect.top;
+
+        const rotateY =
+
+            (x - rect.width / 2) / 20;
+
+        const rotateX =
+
+            -(y - rect.height / 2) / 20;
+
+        card.style.transform =
+
+            `
+            perspective(900px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateY(-8px)
+            scale(1.02)
+            `;
+
+    }
+
+);
+
+/* =========================================================
+   Reset Hover
+========================================================= */
+
+galleryGrid?.addEventListener(
+
+    "mouseleave",
+
+    ()=>{
+
+        document
+
+            .querySelectorAll(".photo-card")
+
+            .forEach((card)=>{
+
+                card.style.transform = "";
+
+            });
+
+    }
+
+);
+
+/* =========================================================
+   Open Lightbox
+========================================================= */
+
+galleryGrid?.addEventListener(
+
+    "click",
+
+    (event)=>{
+
+        const image =
+
+            event.target.closest("img");
+
+        if(!image) return;
+
+        const index =
+
+            Number(image.dataset.index);
+
+        if(Number.isNaN(index)) return;
+
+        openLightbox(index);
+
+    }
+
+);
+
+/* =========================================================
+   Keyboard Accessibility
+========================================================= */
+
+galleryGrid?.addEventListener(
+
+    "keydown",
+
+    (event)=>{
+
+        const image =
+
+            event.target.closest("img");
+
+        if(!image) return;
+
+        if(
+
+            event.key !== "Enter" &&
+
+            event.key !== " "
+
+        ){
+
+            return;
+
+        }
+
+        event.preventDefault();
+
+        const index =
+
+            Number(image.dataset.index);
+
+        if(Number.isNaN(index)) return;
+
+        openLightbox(index);
+
+    }
+
+);
+
+/* =========================================================
+   Disable Drag Image
+========================================================= */
+
+galleryGrid?.addEventListener(
+
+    "dragstart",
+
+    (event)=>{
+
+        if(
+
+            event.target.tagName === "IMG"
+
+        ){
+
+            event.preventDefault();
+
+        }
+
+    }
+
+);
+
+/* =========================================================
+   End Part 3.5
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.6
+   Premium Lightbox
+========================================================= */
 
 /* =========================================================
    Open Lightbox
@@ -357,20 +793,22 @@ let currentImageIndex = 0;
 
 function openLightbox(index){
 
-    if(!lightbox || images.length===0) return;
+    if(!lightbox) return;
+
+    if(images.length === 0) return;
 
     currentImageIndex = index;
 
-    renderLightbox();
+    body.style.overflow = "hidden";
 
     lightbox.classList.add("show");
 
-    document.body.style.overflow = "hidden";
+    renderLightbox();
 
 }
 
 /* =========================================================
-   Close
+   Close Lightbox
 ========================================================= */
 
 function closeLightbox(){
@@ -379,7 +817,7 @@ function closeLightbox(){
 
     lightbox.classList.remove("show");
 
-    document.body.style.overflow = "";
+    body.style.overflow = "";
 
 }
 
@@ -389,345 +827,801 @@ function closeLightbox(){
 
 function renderLightbox(){
 
-    if(images.length===0) return;
+    if(lightboxAnimating) return;
 
-    const img = images[currentImageIndex];
+    if(images.length === 0) return;
+
+    lightboxAnimating = true;
+
+    const image = images[currentImageIndex];
 
     lightboxImage.style.opacity = "0";
 
-    setTimeout(()=>{
+    lightboxImage.style.transform = "scale(.96)";
 
-        lightboxImage.src = img.src;
-        lightboxImage.alt = img.alt;
+    const preload = new Image();
 
-        lightboxImage.style.opacity = "1";
+    preload.src = image.src;
 
-    },150);
+    preload.onload = ()=>{
+
+        lightboxImage.src = preload.src;
+
+        lightboxImage.alt = image.alt;
+
+        requestAnimationFrame(()=>{
+
+            lightboxImage.style.opacity = "1";
+
+            lightboxImage.style.transform = "scale(1)";
+
+            preloadNeighborImages();
+
+            lightboxAnimating = false;
+
+        });
+
+    };
 
 }
 
 /* =========================================================
-   Next
+   Next Image
 ========================================================= */
 
 function nextImage(){
 
-    currentImageIndex++;
+    if(lightboxAnimating) return;
 
-    if(currentImageIndex>=images.length){
+    currentImageIndex =
 
-        currentImageIndex = 0;
+        (currentImageIndex + 1)
 
-    }
+        % images.length;
 
     renderLightbox();
 
 }
 
 /* =========================================================
-   Previous
+   Previous Image
 ========================================================= */
 
 function previousImage(){
 
-    currentImageIndex--;
+    if(lightboxAnimating) return;
 
-    if(currentImageIndex<0){
+    currentImageIndex =
 
-        currentImageIndex = images.length-1;
+        (
 
-    }
+            currentImageIndex
+
+            - 1
+
+            + images.length
+
+        )
+
+        % images.length;
 
     renderLightbox();
 
 }
 
 /* =========================================================
-   Click Gallery
+   Preload Neighbors
 ========================================================= */
 
-galleryGrid?.addEventListener("click",(e)=>{
+function preloadNeighborImages(){
 
-    const img = e.target.closest("img");
+    if(images.length < 2) return;
 
-    if(!img) return;
+    [
 
-    openLightbox(Number(img.dataset.index));
+        (currentImageIndex + 1) % images.length,
 
-});
+        (
+
+            currentImageIndex
+
+            - 1
+
+            + images.length
+
+        ) % images.length
+
+    ]
+
+    .forEach((index)=>{
+
+        const preload = new Image();
+
+        preload.src = images[index].src;
+
+    });
+
+}
 
 /* =========================================================
-   Buttons
+   Close Button
 ========================================================= */
 
-nextImageBtn?.addEventListener("click",nextImage);
+closeLightboxBtn?.addEventListener(
 
-prevImageBtn?.addEventListener("click",previousImage);
+    "click",
 
-closeLightboxBtn?.addEventListener("click",closeLightbox);
+    closeLightbox
+
+);
 
 /* =========================================================
    Click Background
 ========================================================= */
 
-lightbox?.addEventListener("click",(e)=>{
+lightbox?.addEventListener(
 
-    if(e.target===lightbox){
+    "click",
 
-        closeLightbox();
+    (event)=>{
 
-    }
-
-});
-
-/* =========================================================
-   Keyboard
-========================================================= */
-
-document.addEventListener("keydown",(e)=>{
-
-    if(!lightbox?.classList.contains("show")) return;
-
-    switch(e.key){
-
-        case "ArrowRight":
-
-            nextImage();
-
-            break;
-
-        case "ArrowLeft":
-
-            previousImage();
-
-            break;
-
-        case "Escape":
+        if(event.target === lightbox){
 
             closeLightbox();
 
-            break;
+        }
 
     }
 
-});
+);
 
 /* =========================================================
-   Touch Swipe
+   End Part 3.6
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.7
+   Lightbox Controls
 ========================================================= */
 
-let startX = 0;
+/* =========================================================
+   Button Navigation
+========================================================= */
 
-lightbox?.addEventListener("touchstart",(e)=>{
+nextImageBtn?.addEventListener(
 
-    startX = e.changedTouches[0].screenX;
+    "click",
 
-});
-
-lightbox?.addEventListener("touchend",(e)=>{
-
-    const endX = e.changedTouches[0].screenX;
-
-    const distance = startX-endX;
-
-    if(distance>50){
+    ()=>{
 
         nextImage();
 
     }
 
-    if(distance<-50){
+);
+
+prevImageBtn?.addEventListener(
+
+    "click",
+
+    ()=>{
 
         previousImage();
 
     }
 
-});
+);
+
+/* =========================================================
+   Keyboard Controls
+========================================================= */
+
+document.addEventListener(
+
+    "keydown",
+
+    (event)=>{
+
+        /* -----------------------------
+           Close Letter
+        ----------------------------- */
+
+        if(
+
+            event.key === "Escape" &&
+
+            overlay?.classList.contains("show")
+
+        ){
+
+            closeLetter();
+
+            return;
+
+        }
+
+        /* -----------------------------
+           Lightbox Closed
+        ----------------------------- */
+
+        if(
+
+            !lightbox ||
+
+            !lightbox.classList.contains("show")
+
+        ){
+
+            return;
+
+        }
+
+        /* -----------------------------
+           Navigation
+        ----------------------------- */
+
+        switch(event.key){
+
+            case "ArrowRight":
+
+                nextImage();
+
+                break;
+
+            case "ArrowLeft":
+
+                previousImage();
+
+                break;
+
+            case "Escape":
+
+                closeLightbox();
+
+                break;
+
+        }
+
+    }
+
+);
+
+/* =========================================================
+   Prevent Rapid Clicking
+========================================================= */
+
+function lockNavigationButton(button){
+
+    if(!button) return;
+
+    button.disabled = true;
+
+    window.setTimeout(()=>{
+
+        button.disabled = false;
+
+    },180);
+
+}
+
+nextImageBtn?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+        lockNavigationButton(
+
+            nextImageBtn
+
+        );
+
+    }
+
+);
+
+prevImageBtn?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+        lockNavigationButton(
+
+            prevImageBtn
+
+        );
+
+    }
+
+);
+
+/* =========================================================
+   Image Counter
+========================================================= */
+
+function getCurrentImage(){
+
+    return currentImageIndex + 1;
+
+}
+
+function getTotalImages(){
+
+    return images.length;
+
+}
+
+/* =========================================================
+   End Part 3.7
+========================================================= */
 /* =========================================================
    MAIN.JS
-   Part 4 - Music + Loader + Performance
+   Part 3.8
+   Lightbox Advanced Interaction
 ========================================================= */
 
 /* =========================================================
-   Music
+   Touch Swipe
 ========================================================= */
 
-const bgMusic = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
 
-function updateMusicButton() {
+lightbox?.addEventListener(
 
-    if (!musicBtn || !bgMusic) return;
+    "touchstart",
 
-    if (bgMusic.paused) {
-        musicBtn.classList.remove("playing");
-        musicBtn.innerHTML = "🎵";
-    } else {
-        musicBtn.classList.add("playing");
-        musicBtn.innerHTML = "🎶";
-    }
+    (event)=>{
 
-}
+        touchStartX =
 
-function toggleMusic() {
+            event.changedTouches[0].clientX;
 
-    if (!bgMusic) return;
+    },
 
-    if (bgMusic.paused) {
+    {
 
-        bgMusic.play()
-            .then(() => {
-                localStorage.setItem("music", "on");
-                updateMusicButton();
-            })
-            .catch(() => {});
-
-    } else {
-
-        bgMusic.pause();
-
-        localStorage.setItem("music", "off");
-
-        updateMusicButton();
+        passive:true
 
     }
 
-}
+);
 
-musicBtn?.addEventListener("click", toggleMusic);
+lightbox?.addEventListener(
+
+    "touchend",
+
+    (event)=>{
+
+        const touchEndX =
+
+            event.changedTouches[0].clientX;
+
+        const distance =
+
+            touchStartX - touchEndX;
+
+        if(Math.abs(distance) < 60){
+
+            return;
+
+        }
+
+        if(distance > 0){
+
+            nextImage();
+
+        }else{
+
+            previousImage();
+
+        }
+
+    },
+
+    {
+
+        passive:true
+
+    }
+
+);
 
 /* =========================================================
-   Restore Music
+   Mouse Wheel Navigation
 ========================================================= */
 
-window.addEventListener("load", () => {
+lightbox?.addEventListener(
 
-    if (!bgMusic) return;
+    "wheel",
 
-    const state = localStorage.getItem("music");
+    (event)=>{
 
-    if (state === "on") {
+        if(
 
-        bgMusic.play()
-            .then(updateMusicButton)
-            .catch(() => {});
+            !lightbox.classList.contains("show")
 
-    } else {
+        ){
 
-        updateMusicButton();
+            return;
+
+        }
+
+        event.preventDefault();
+
+        if(event.deltaY > 0){
+
+            nextImage();
+
+        }else{
+
+            previousImage();
+
+        }
+
+    },
+
+    {
+
+        passive:false
 
     }
 
-});
+);
+
+/* =========================================================
+   Double Click
+========================================================= */
+
+lightboxImage?.addEventListener(
+
+    "dblclick",
+
+    closeLightbox
+
+);
+
+/* =========================================================
+   Disable Image Drag
+========================================================= */
+
+lightboxImage?.addEventListener(
+
+    "dragstart",
+
+    (event)=>{
+
+        event.preventDefault();
+
+    }
+
+);
+
+/* =========================================================
+   Cleanup
+========================================================= */
+
+window.addEventListener(
+
+    "beforeunload",
+
+    ()=>{
+
+        lightboxImage?.removeAttribute(
+
+            "src"
+
+        );
+
+    }
+
+);
+
+/* =========================================================
+   End Part 3.8
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.9
+   Music + Loader
+========================================================= */
+
+/* =========================================================
+   Update Music Button
+========================================================= */
+
+function updateMusicButton(){
+
+    if(!musicBtn || !bgMusic) return;
+
+    const playing = !bgMusic.paused;
+
+    musicBtn.classList.toggle(
+
+        "playing",
+
+        playing
+
+    );
+
+    musicBtn.textContent =
+
+        playing ? "🎶" : "🎵";
+
+}
+
+/* =========================================================
+   Play / Pause Music
+========================================================= */
+
+async function toggleMusic(){
+
+    if(!bgMusic) return;
+
+    try{
+
+        if(bgMusic.paused){
+
+            await bgMusic.play();
+
+            localStorage.setItem(
+
+                "music",
+
+                "on"
+
+            );
+
+        }else{
+
+            bgMusic.pause();
+
+            localStorage.setItem(
+
+                "music",
+
+                "off"
+
+            );
+
+        }
+
+    }catch(error){
+
+        console.warn(
+
+            "Music autoplay blocked."
+
+        );
+
+    }
+
+    updateMusicButton();
+
+}
+
+musicBtn?.addEventListener(
+
+    "click",
+
+    toggleMusic
+
+);
+
+/* =========================================================
+   Restore Music State
+========================================================= */
+
+async function restoreMusic(){
+
+    if(!bgMusic) return;
+
+    const state =
+
+        localStorage.getItem("music");
+
+    if(state !== "on"){
+
+        updateMusicButton();
+
+        return;
+
+    }
+
+    try{
+
+        await bgMusic.play();
+
+    }catch(error){
+
+        console.warn(
+
+            "Unable to restore music."
+
+        );
+
+    }
+
+    updateMusicButton();
+
+}
+
+/* =========================================================
+   Page Visibility
+========================================================= */
+
+document.addEventListener(
+
+    "visibilitychange",
+
+    ()=>{
+
+        if(!bgMusic) return;
+
+        bgMusic.volume =
+
+            document.hidden
+
+                ? 0.2
+
+                : 1;
+
+    }
+
+);
 
 /* =========================================================
    Loader
 ========================================================= */
 
-const loader = document.getElementById("loader");
+function hideLoader(){
 
-window.addEventListener("load", () => {
+    if(!loader) return;
 
-    if (!loader) return;
+    loader.classList.add(
 
-    setTimeout(() => {
+        "hide"
 
-        loader.classList.add("hide");
-
-    }, 600);
-
-});
-
-/* =========================================================
-   Smooth Scroll Buttons
-========================================================= */
-
-document.querySelectorAll("[data-scroll]").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const target =
-            document.querySelector(button.dataset.scroll);
-
-        if (!target) return;
-
-        target.scrollIntoView({
-
-            behavior: "smooth",
-            block: "start"
-
-        });
-
-    });
-
-});
-
-/* =========================================================
-   Image Preload
-========================================================= */
-
-function preloadImages() {
-
-    for (let i = 1; i <= TOTAL_IMAGES; i++) {
-
-        const img = new Image();
-
-        img.src = `assets/images/photo${i}.jpg`;
-
-    }
+    );
 
 }
 
-window.addEventListener("load", preloadImages);
-
 /* =========================================================
-   Page Visible
+   Window Loaded
 ========================================================= */
 
-document.addEventListener("visibilitychange", () => {
+window.addEventListener(
 
-    if (!bgMusic) return;
+    "load",
 
-    if (document.hidden) {
+    ()=>{
 
-        bgMusic.volume = 0.2;
+        hideLoader();
 
-    } else {
-
-        bgMusic.volume = 1;
+        restoreMusic();
 
     }
 
-});
-
-/* =========================================================
-   Resize
-========================================================= */
-
-let resizeTimer;
-
-window.addEventListener("resize", () => {
-
-    clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(() => {
-
-        console.log("Layout Updated");
-
-    }, 200);
-
-});
-
-/* =========================================================
-   Welcome
-========================================================= */
-
-console.log(
-"%c❤️ Welcome To Moji-Lin ❤️",
-"color:#ff6fb5;font-size:22px;font-weight:bold;"
 );
 
-console.log(
-"%cMade with Love",
-"color:#8f7cff;font-size:14px;"
+/* =========================================================
+   End Part 3.9
+========================================================= */
+/* =========================================================
+   MAIN.JS
+   Part 3.10
+   Initialization + Utilities
+========================================================= */
+
+/* =========================================================
+   Back To Top
+========================================================= */
+
+function updateBackToTop(){
+
+    if(!backToTop) return;
+
+    backToTop.classList.toggle(
+
+        "show",
+
+        window.scrollY > 400
+
+    );
+
+}
+
+backToTop?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    }
+
 );
+
+window.addEventListener(
+
+    "scroll",
+
+    updateBackToTop,
+
+    {
+
+        passive:true
+
+    }
+
+);
+
+/* =========================================================
+   Cursor Glow
+========================================================= */
+
+document.addEventListener(
+
+    "pointermove",
+
+    (event)=>{
+
+        if(!cursorGlow) return;
+
+        cursorGlow.style.left =
+
+            `${event.clientX}px`;
+
+        cursorGlow.style.top =
+
+            `${event.clientY}px`;
+
+    },
+
+    {
+
+        passive:true
+
+    }
+
+);
+
+/* =========================================================
+   Initialize Website
+========================================================= */
+
+function initializeWebsite(){
+
+    preloadImages();
+
+    buildGallery();
+
+    startIntro();
+
+    updateMusicButton();
+
+    updateBackToTop();
+
+}
+
+/* =========================================================
+   DOM Ready
+========================================================= */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    initializeWebsite
+
+);
+
+/* =========================================================
+   End MAIN.JS
+========================================================= */
