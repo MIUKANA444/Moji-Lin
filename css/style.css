@@ -442,3 +442,147 @@ background-position:0% 50%;
     letter-spacing:3px;
 
 }
+/* ===========================
+        Loading Screen
+=========================== */
+
+#loader{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.96);
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:10000;
+
+    transition:opacity .8s ease, visibility .8s;
+
+}
+
+.loader-content{
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.loader-heart{
+
+    font-size:60px;
+
+    animation:pulse 1s infinite;
+
+}
+
+.loader-content h2{
+
+    margin:20px 0;
+
+}
+
+.loader-bar{
+
+    width:260px;
+
+    height:8px;
+
+    background:rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.loader-progress{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(90deg,#ff6fb5,#8f7cff);
+
+    animation:loading 2s forwards;
+
+}
+
+@keyframes loading{
+
+    to{
+
+        width:100%;
+
+    }
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.15);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+    }
+
+/* ซ่อน Loader หลังโหลดเสร็จ */
+#loader.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+#musicBtn{
+    transition:.3s;
+}
+
+#musicBtn:hover{
+    transform:scale(1.1) rotate(12deg);
+    box-shadow:0 0 25px rgba(255,111,181,.5);
+}
+.glass::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.15),
+        transparent
+    );
+    transform:rotate(25deg);
+    animation:shine 8s linear infinite;
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-100%) rotate(25deg);
+    }
+    to{
+        transform:translateX(100%) rotate(25deg);
+    }
+}
