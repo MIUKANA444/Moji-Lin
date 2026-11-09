@@ -1901,3 +1901,48 @@ console.log(
 "%cMade with Love",
 "color:#8f7cff;font-size:14px;"
 );
+/* ==========================================
+   Loader
+========================================== */
+
+#loader{
+
+    transition:
+        opacity .5s ease,
+        visibility .5s ease;
+
+}
+
+#loader.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+}
+
+/* ==========================================
+   Music
+========================================== */
+
+#musicBtn.playing{
+
+    animation:spinMusic 5s linear infinite;
+
+}
+
+@keyframes spinMusic{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
