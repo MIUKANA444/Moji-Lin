@@ -220,14 +220,10 @@ background-position:0% 50%;
 }
 
 #letterText{
-
     font-size:20px;
-
-    line-height:2;
-
-    min-height:220px;
-
+    line-height:1.6;
     white-space:pre-line;
+    text-align:left;
 }
 
 #closeLetter{
