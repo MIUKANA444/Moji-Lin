@@ -459,3 +459,149 @@ setInterval(()=>{
     },5000);
 
 },2000);
+/* =========================================================
+   EFFECTS.JS
+   Part 4 - Premium Features
+========================================================= */
+
+/* =========================================================
+   Keyboard Lightbox
+========================================================= */
+
+const lightbox = document.getElementById("lightbox");
+const nextBtn = document.getElementById("nextImage");
+const prevBtn = document.getElementById("prevImage");
+
+document.addEventListener("keydown", (e) => {
+
+    if (!lightbox || !lightbox.classList.contains("show")) return;
+
+    switch (e.key) {
+
+        case "ArrowRight":
+            if (nextBtn) nextBtn.click();
+            break;
+
+        case "ArrowLeft":
+            if (prevBtn) prevBtn.click();
+            break;
+
+        case "Escape":
+            document.getElementById("closeLightbox")?.click();
+            break;
+    }
+
+});
+
+/* =========================================================
+   Double Click Heart Effect
+========================================================= */
+
+document.querySelectorAll(".photo-card").forEach(card => {
+
+    card.addEventListener("dblclick", (e) => {
+
+        const heart = document.createElement("div");
+
+        heart.textContent = "❤️";
+        heart.className = "popup-heart";
+
+        heart.style.left = e.clientX + "px";
+        heart.style.top = e.clientY + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+
+            heart.remove();
+
+        }, 1200);
+
+    });
+
+});
+
+/* =========================================================
+   Confetti on Open Button
+========================================================= */
+
+const openButton = document.getElementById("openBtn");
+
+if (openButton) {
+
+    openButton.addEventListener("click", () => {
+
+        for (let i = 0; i < 35; i++) {
+
+            const piece = document.createElement("div");
+
+            piece.className = "confetti";
+
+            piece.style.left = (window.innerWidth / 2) + "px";
+            piece.style.top = (window.innerHeight / 2) + "px";
+
+            piece.style.background =
+                `hsl(${Math.random()*360},90%,70%)`;
+
+            piece.style.transform =
+                `rotate(${Math.random()*360}deg)`;
+
+            piece.style.setProperty(
+                "--x",
+                (Math.random()*500-250) + "px"
+            );
+
+            piece.style.setProperty(
+                "--y",
+                (Math.random()*500-250) + "px"
+            );
+
+            document.body.appendChild(piece);
+
+            setTimeout(() => {
+
+                piece.remove();
+
+            }, 1800);
+
+        }
+
+    });
+
+}
+
+/* =========================================================
+   Music Button Animation
+========================================================= */
+
+const musicBtn = document.getElementById("musicBtn");
+
+if (musicBtn) {
+
+    musicBtn.addEventListener("click", () => {
+
+        musicBtn.classList.toggle("playing");
+
+    });
+
+}
+
+/* =========================================================
+   Welcome Console
+========================================================= */
+
+console.log("%c❤️ Welcome To Moji-Lin ❤️",
+"font-size:22px;color:#ff6fb5;font-weight:bold;");
+
+console.log("%cMade with Love by Aphiwat",
+"font-size:15px;color:#8f7cff;");
+
+/* =========================================================
+   Finish Loading
+========================================================= */
+
+window.addEventListener("load", () => {
+
+    document.body.classList.add("loaded");
+
+});
