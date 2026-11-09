@@ -1591,3 +1591,41 @@ html{
     transform:translateY(0);
 
 }
+/* ===========================
+   Lightbox Smooth
+=========================== */
+
+#lightboxImage{
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+
+}
+
+#lightbox.show #lightboxImage{
+
+    animation:
+        zoomImage .35s ease;
+
+}
+
+@keyframes zoomImage{
+
+    from{
+
+        transform:scale(.9);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
