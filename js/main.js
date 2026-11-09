@@ -323,3 +323,244 @@ function refreshGallery(){
     observeImages();
 
 }
+/* =========================================================
+   MAIN.JS
+   Part 3 - Premium Lightbox
+========================================================= */
+
+// =========================================================
+// Elements
+// =========================================================
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+
+const closeLightbox =
+document.getElementById("closeLightbox");
+
+const prevImage =
+document.getElementById("prevImage");
+
+const nextImage =
+document.getElementById("nextImage");
+
+let currentImage = 0;
+
+// =========================================================
+// Open
+// =========================================================
+
+function openLightbox(index){
+
+    if(!lightbox) return;
+
+    currentImage = index;
+
+    updateLightbox();
+
+    lightbox.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+// =========================================================
+// Close
+// =========================================================
+
+function closeBox(){
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+// =========================================================
+// Update Image
+// =========================================================
+
+function updateLightbox(){
+
+    if(images.length===0) return;
+
+    lightboxImage.style.opacity = 0;
+
+    setTimeout(()=>{
+
+        lightboxImage.src =
+            images[currentImage].src;
+
+        lightboxImage.alt =
+            images[currentImage].alt;
+
+        lightboxImage.style.opacity = 1;
+
+    },180);
+
+}
+
+// =========================================================
+// Next
+// =========================================================
+
+function nextPhoto(){
+
+    currentImage++;
+
+    if(currentImage>=images.length){
+
+        currentImage=0;
+
+    }
+
+    updateLightbox();
+
+}
+
+// =========================================================
+// Previous
+// =========================================================
+
+function previousPhoto(){
+
+    currentImage--;
+
+    if(currentImage<0){
+
+        currentImage=
+        images.length-1;
+
+    }
+
+    updateLightbox();
+
+}
+
+// =========================================================
+// Click Gallery
+// =========================================================
+
+document.addEventListener("click",(e)=>{
+
+    if(e.target.matches(".photo-card img")){
+
+        openLightbox(
+
+            Number(e.target.dataset.index)
+
+        );
+
+    }
+
+});
+
+// =========================================================
+// Buttons
+// =========================================================
+
+if(nextImage){
+
+    nextImage.onclick = nextPhoto;
+
+}
+
+if(prevImage){
+
+    prevImage.onclick = previousPhoto;
+
+}
+
+if(closeLightbox){
+
+    closeLightbox.onclick = closeBox;
+
+}
+
+// =========================================================
+// Click Background Close
+// =========================================================
+
+if(lightbox){
+
+    lightbox.addEventListener("click",(e)=>{
+
+        if(e.target===lightbox){
+
+            closeBox();
+
+        }
+
+    });
+
+}
+
+// =========================================================
+// Keyboard
+// =========================================================
+
+document.addEventListener("keydown",(e)=>{
+
+    if(!lightbox.classList.contains("show")) return;
+
+    switch(e.key){
+
+        case "ArrowRight":
+
+            nextPhoto();
+
+            break;
+
+        case "ArrowLeft":
+
+            previousPhoto();
+
+            break;
+
+        case "Escape":
+
+            closeBox();
+
+            break;
+
+    }
+
+});
+
+// =========================================================
+// Mobile Swipe
+// =========================================================
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+if(lightbox){
+
+    lightbox.addEventListener("touchstart",(e)=>{
+
+        touchStartX =
+        e.changedTouches[0].screenX;
+
+    });
+
+    lightbox.addEventListener("touchend",(e)=>{
+
+        touchEndX =
+        e.changedTouches[0].screenX;
+
+        if(touchStartX-touchEndX>50){
+
+            nextPhoto();
+
+        }
+
+        if(touchEndX-touchStartX>50){
+
+            previousPhoto();
+
+        }
+
+    });
+
+}
