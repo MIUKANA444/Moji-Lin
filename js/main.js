@@ -78,14 +78,3 @@ if (galleryGrid) {
         card.appendChild(img);
         galleryGrid.appendChild(card);
     }
-
-}
-window.addEventListener("load", () => {
-
-    const loader = document.getElementById("loader");
-
-    setTimeout(() => {
-        loader.classList.add("hide");
-    }, 2000);
-
-});
