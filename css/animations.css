@@ -1,65 +1,106 @@
-@keyframes floatCard {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-12px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
+/* ===========================
+        Hero Animation
+=========================== */
+
+.hero{
+    animation:fadeIn 1.3s ease forwards;
 }
 
-.glass {
-    animation: floatCard 6s ease-in-out infinite;
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+
+/* ===========================
+        Floating Glass
+=========================== */
+
+.glass{
+
+    animation:floatCard 6s ease-in-out infinite;
+
+    will-change:transform;
+
 }
 
-.hero {
-    animation: fadeIn 1.5s ease;
+@keyframes floatCard{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
 }
 
-#openBtn {
-    animation: pulse 2s infinite;
+
+/* ===========================
+      Open Button Pulse
+=========================== */
+
+#openBtn{
+
+    animation:buttonPulse 2.5s infinite;
+
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 rgba(255,111,181,0);
+@keyframes buttonPulse{
+
+    0%{
+        box-shadow:0 0 0 rgba(255,111,181,0);
     }
-    50% {
-        box-shadow: 0 0 25px rgba(255,111,181,.6);
+
+    50%{
+        box-shadow:0 0 28px rgba(255,111,181,.65);
     }
-    100% {
-        box-shadow: 0 0 0 rgba(255,111,181,0);
+
+    100%{
+        box-shadow:0 0 0 rgba(255,111,181,0);
     }
+
 }
+
+
+/* ===========================
+       Love Letter Popup
+=========================== */
+
+.letter{
+
+    animation:letterOpen .6s ease;
+
+}
+
 @keyframes letterOpen{
 
-from{
+    0%{
+        opacity:0;
+        transform:scale(.85);
+    }
 
-opacity:0;
+    70%{
+        transform:scale(1.03);
+    }
 
-transform:scale(.8);
-
-}
-
-to{
-
-opacity:1;
-
-transform:scale(1);
-
-}
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
 
 }
