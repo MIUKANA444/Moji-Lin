@@ -411,3 +411,34 @@ background-position:0% 50%;
     animation:fadeUp .8s ease both;
 
 }
+/* ===========================
+           Footer
+=========================== */
+
+.footer{
+
+    padding:80px 20px;
+
+    text-align:center;
+
+    color:rgba(255,255,255,.8);
+
+}
+
+.footer p:first-child{
+
+    font-size:20px;
+
+    font-weight:600;
+
+    margin-bottom:12px;
+
+}
+
+.footer p:last-child{
+
+    color:#ffb6d9;
+
+    letter-spacing:3px;
+
+}
