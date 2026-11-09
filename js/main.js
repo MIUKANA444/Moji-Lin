@@ -59,10 +59,10 @@ window.addEventListener("load", () => {
 });
 
 openBtn.addEventListener("click", () => {
-    overlay.classList.remove("hidden");
+    overlay.classList.add("show");
     typeLetter();
 });
 
 closeBtn.addEventListener("click", () => {
-    overlay.classList.add("hidden");
+    overlay.classList.remove("show");
 });
