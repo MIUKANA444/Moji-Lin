@@ -172,27 +172,26 @@ background-position:0% 50%;
 }
 /* ---------- Love Letter ---------- */
 
-.hidden{
-
+#letterOverlay.hidden{
     display:none;
-
 }
 
 #letterOverlay{
-
     position:fixed;
-
     inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
 
     background:rgba(0,0,0,.75);
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
     z-index:999;
+}
+
+#letterOverlay.show{
+    display:flex;
 }
 
 .letter{
