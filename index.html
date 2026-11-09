@@ -1,104 +1,382 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>For My Lovely Moji ❤️</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta
+        name="description"
+        content="A special surprise website made with love.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta
+        name="theme-color"
+        content="#ff6fb5">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
 </head>
 
 <body>
 
-<div class="background"></div>
+    <!-- ==========================
+         Loader
+    =========================== -->
 
-<div id="stars"></div>
+    <div id="loader">
 
-<div id="hearts"></div>
-
-<main class="hero">
-
-    <div class="glass">
-
-        <div class="small-title">
-            ❤️ Our Story ❤️
+        <div class="loader-heart">
+            ❤️
         </div>
 
-        <h1 id="title">
-            For My Lovely Moji
-        </h1>
-
-        <p id="typing"></p>
-
-        <button id="openBtn">
-            Open My Heart
-        </button>
+        <p>Loading Our Memories...</p>
 
     </div>
 
-</main>
+    <!-- ==========================
+         Animated Background
+    =========================== -->
 
-<section class="gallery">
+    <div class="background"></div>
 
-    <h2>📸 Our Memories</h2>
+    <div id="stars"></div>
 
-    <div class="gallery-grid" id="galleryGrid"></div>
+    <div id="hearts"></div>
 
-</section>
-    
-<!-- Love Letter Overlay -->
-<div id="letterOverlay">
-    
-    <div class="letter">
+    <div id="cursorGlow"></div>
 
-        <h2>To My Lovely Moji ❤️</h2>
+    <!-- ==========================
+         Background Music
+    =========================== -->
 
-        <p id="letterText"></p>
+    <audio
+        id="bgMusic"
+        loop>
 
-        <button id="closeLetter">
-            Close
-        </button>
+        <source
+            src="assets/music/music.mp3"
+            type="audio/mpeg">
+
+    </audio>
+
+    <!-- ==========================
+         Music Button
+    =========================== -->
+
+    <button
+        id="musicBtn"
+        aria-label="Toggle Music">
+
+        🎵
+
+    </button>
+
+    <!-- ==========================
+         Hero
+    =========================== -->
+
+    <section class="hero">
+
+        <div class="glass">
+
+            <p class="small-title">
+
+                FOR MY LOVELY
+
+            </p>
+
+            <h1>
+
+                ❤️ Moji ❤️
+
+            </h1>
+
+            <p id="typing"></p>
+
+            <button id="openBtn">
+
+                Open My Heart 💌
+
+            </button>
+
+        </div>
+
+    </section>
+        <!-- ==========================
+         Love Letter
+    =========================== -->
+
+    <div id="letterOverlay">
+
+        <div class="letter">
+
+            <h2>💌 ถึงพี่โมจิ 💌</h2>
+
+            <p id="letterText"></p>
+
+            <button id="closeLetter">
+
+                ปิดจดหมาย ❤️
+
+            </button>
+
+        </div>
 
     </div>
 
-</div>
+    <!-- ==========================
+         Memories Gallery
+    =========================== -->
+
+    <section
+        id="gallery"
+        class="gallery">
+
+        <h2>
+
+            📸 Our Beautiful Memories
+
+        </h2>
+
+        <p class="gallery-subtitle">
+
+            Every picture tells a story,
+            and every story reminds me
+            how lucky I am to have you.
+
+        </p>
+
+        <div
+            id="galleryGrid"
+            class="gallery-grid">
+
+            <!-- JavaScript จะสร้างรูปทั้งหมดที่นี่ -->
+
+        </div>
+
+    </section>
+
+    <!-- ==========================
+         Love Quotes
+    =========================== -->
+
+    <section class="quotes">
+
+        <div class="glass quote-card">
+
+            <h2>
+
+                ❤️ A Little Message ❤️
+
+            </h2>
+
+            <p>
+
+                "No matter how many days pass,
+                every day with you is still
+                my favorite day."
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ==========================
+         Timeline
+    =========================== -->
+
+    <section class="timeline">
+
+        <h2>
+
+            🌸 Our Journey 🌸
+
+        </h2>
+
+        <div class="timeline-container">
+
+            <div class="timeline-item">
+
+                <span class="dot"></span>
+
+                <div class="timeline-content">
+
+                    <h3>
+
+                        The First Time
+
+                    </h3>
+
+                    <p>
+
+                        The day we met was the beginning
+                        of the happiest chapter in my life.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="timeline-item">
+
+                <span class="dot"></span>
+
+                <div class="timeline-content">
+
+                    <h3>
+
+                        Every Memory
+
+                    </h3>
+
+                    <p>
+
+                        Every laugh, every hug,
+                        every conversation,
+                        became unforgettable memories.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="timeline-item">
+
+                <span class="dot"></span>
+
+                <div class="timeline-content">
+
+                    <h3>
+
+                        Forever ❤️
+
+                    </h3>
+
+                    <p>
+
+                        I hope this journey
+                        will continue for a very long time.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ==========================
+         Footer
+    =========================== -->
+
+    <footer class="footer">
+
+        <p>
+
+            Made With ❤️ For Moji
+
+        </p>
+
+        <p>
+
+            Every Moment With You Is My Favorite Memory.
+
+        </p>
+
+    </footer>
+        <!-- ==========================
+         Premium Lightbox
+    =========================== -->
 
     <div id="lightbox">
 
-    <span id="closeLightbox">&times;</span>
+        <button
+            id="prevImage"
+            aria-label="Previous Image">
 
-    <img id="lightboxImage">
+            &#10094;
 
-    <button id="prevImage">❮</button>
+        </button>
 
-    <button id="nextImage">❯</button>
+        <img
+            id="lightboxImage"
+            src=""
+            alt="Memory">
 
-</div>
-    
-<button id="musicBtn">
-    🎵
-</button>
-<footer class="footer">
+        <button
+            id="nextImage"
+            aria-label="Next Image">
 
-    <p>
-        Made with ❤️ by LIN
-    </p>
+            &#10095;
 
-    <p>
-        Forever with Moji
-    </p>
+        </button>
 
-</footer>
+        <button
+            id="closeLightbox"
+            aria-label="Close">
 
-<script src="js/main.js"></script>
-<script src="js/effects.js"></script>
+            &times;
+
+        </button>
+
+    </div>
+
+    <!-- ==========================
+         Effects Layer
+    =========================== -->
+
+    <div id="sparkleLayer"></div>
+
+    <div id="confettiLayer"></div>
+
+    <div id="popupHeartLayer"></div>
+
+    <!-- ==========================
+         Back To Top
+    =========================== -->
+
+    <button
+        id="backToTop"
+        aria-label="Back To Top">
+
+        ⬆
+
+    </button>
+
+    <!-- ==========================
+         JavaScript
+    =========================== -->
+
+    <script src="js/main.js"></script>
+
+    <script src="js/effects.js"></script>
 
 </body>
+
 </html>
