@@ -6,7 +6,7 @@ const overlay = document.getElementById("letterOverlay");
 const closeBtn = document.getElementById("closeLetter");
 const letterText = document.getElementById("letterText");
 
-const message = `ถึงโมจิ ❤️
+const message = `ถึงพี่โมจิ ❤️
 
 ขอบคุณที่เข้ามาเป็นช่วงเวลาที่ดีที่สุดในชีวิตของผมนะ
 
