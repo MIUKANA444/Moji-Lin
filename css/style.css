@@ -1462,3 +1462,109 @@ html{
     }
 
 }
+/* ==========================================
+   Popup Heart
+========================================== */
+
+.popup-heart{
+
+    position:fixed;
+
+    font-size:38px;
+
+    pointer-events:none;
+
+    animation:popupHeart 1.2s ease forwards;
+
+    z-index:99999;
+
+}
+
+@keyframes popupHeart{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.2);
+
+    }
+
+    30%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-180px)
+            scale(2)
+            rotate(20deg);
+
+    }
+
+}
+
+/* ==========================================
+   Confetti
+========================================== */
+
+.confetti{
+
+    position:fixed;
+
+    width:12px;
+
+    height:12px;
+
+    animation:confetti 1.8s ease-out forwards;
+
+    z-index:99999;
+
+}
+
+@keyframes confetti{
+
+    to{
+
+        transform:
+            translate(var(--x),var(--y))
+            rotate(720deg);
+
+        opacity:0;
+
+    }
+
+}
+
+/* ==========================================
+   Music Playing
+========================================== */
+
+#musicBtn.playing{
+
+    animation:spinMusic 5s linear infinite;
+
+}
+
+@keyframes spinMusic{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
