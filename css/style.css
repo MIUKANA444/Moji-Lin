@@ -1568,3 +1568,26 @@ html{
     }
 
 }
+/* ===========================
+   Gallery Fade
+=========================== */
+
+.photo-card{
+
+    opacity:0;
+
+    transform:translateY(35px);
+
+    transition:
+        opacity .7s ease,
+        transform .7s ease;
+
+}
+
+.photo-card.visible{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
