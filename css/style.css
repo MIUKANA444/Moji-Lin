@@ -1353,3 +1353,112 @@ html{
     }
 
 }
+/* =====================================================
+   Scroll Animation
+===================================================== */
+
+.hidden{
+
+    opacity:0;
+
+    transform:translateY(40px);
+
+    transition:1s;
+
+}
+
+.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+/* =====================================================
+   Cursor Glow
+===================================================== */
+
+#cursorGlow{
+
+    position:fixed;
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    background:radial-gradient(
+
+        rgba(255,111,181,.18),
+
+        transparent 70%
+
+    );
+
+    filter:blur(20px);
+
+    z-index:0;
+
+}
+
+/* =====================================================
+   Floating Glow
+===================================================== */
+
+.floatingGlow{
+
+    position:fixed;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 0 18px white,
+        0 0 40px #ff8bc5;
+
+    animation:floatingGlow 5s linear forwards;
+
+    pointer-events:none;
+
+}
+
+@keyframes floatingGlow{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(0)
+            scale(.5);
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+            translateY(-180px)
+            scale(2);
+
+    }
+
+}
