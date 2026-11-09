@@ -337,3 +337,209 @@ window.addEventListener("load",()=>{
     buildGallery();
 
 });
+/* =========================================================
+   MAIN.JS
+   Part 3 - Premium Lightbox
+========================================================= */
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+
+const closeLightboxBtn = document.getElementById("closeLightbox");
+const nextImageBtn = document.getElementById("nextImage");
+const prevImageBtn = document.getElementById("prevImage");
+
+let currentImageIndex = 0;
+
+/* =========================================================
+   Open Lightbox
+========================================================= */
+
+function openLightbox(index){
+
+    if(!lightbox || images.length===0) return;
+
+    currentImageIndex = index;
+
+    renderLightbox();
+
+    lightbox.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+/* =========================================================
+   Close
+========================================================= */
+
+function closeLightbox(){
+
+    if(!lightbox) return;
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+/* =========================================================
+   Render Image
+========================================================= */
+
+function renderLightbox(){
+
+    if(images.length===0) return;
+
+    const img = images[currentImageIndex];
+
+    lightboxImage.style.opacity = "0";
+
+    setTimeout(()=>{
+
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+
+        lightboxImage.style.opacity = "1";
+
+    },150);
+
+}
+
+/* =========================================================
+   Next
+========================================================= */
+
+function nextImage(){
+
+    currentImageIndex++;
+
+    if(currentImageIndex>=images.length){
+
+        currentImageIndex = 0;
+
+    }
+
+    renderLightbox();
+
+}
+
+/* =========================================================
+   Previous
+========================================================= */
+
+function previousImage(){
+
+    currentImageIndex--;
+
+    if(currentImageIndex<0){
+
+        currentImageIndex = images.length-1;
+
+    }
+
+    renderLightbox();
+
+}
+
+/* =========================================================
+   Click Gallery
+========================================================= */
+
+galleryGrid?.addEventListener("click",(e)=>{
+
+    const img = e.target.closest("img");
+
+    if(!img) return;
+
+    openLightbox(Number(img.dataset.index));
+
+});
+
+/* =========================================================
+   Buttons
+========================================================= */
+
+nextImageBtn?.addEventListener("click",nextImage);
+
+prevImageBtn?.addEventListener("click",previousImage);
+
+closeLightboxBtn?.addEventListener("click",closeLightbox);
+
+/* =========================================================
+   Click Background
+========================================================= */
+
+lightbox?.addEventListener("click",(e)=>{
+
+    if(e.target===lightbox){
+
+        closeLightbox();
+
+    }
+
+});
+
+/* =========================================================
+   Keyboard
+========================================================= */
+
+document.addEventListener("keydown",(e)=>{
+
+    if(!lightbox?.classList.contains("show")) return;
+
+    switch(e.key){
+
+        case "ArrowRight":
+
+            nextImage();
+
+            break;
+
+        case "ArrowLeft":
+
+            previousImage();
+
+            break;
+
+        case "Escape":
+
+            closeLightbox();
+
+            break;
+
+    }
+
+});
+
+/* =========================================================
+   Touch Swipe
+========================================================= */
+
+let startX = 0;
+
+lightbox?.addEventListener("touchstart",(e)=>{
+
+    startX = e.changedTouches[0].screenX;
+
+});
+
+lightbox?.addEventListener("touchend",(e)=>{
+
+    const endX = e.changedTouches[0].screenX;
+
+    const distance = startX-endX;
+
+    if(distance>50){
+
+        nextImage();
+
+    }
+
+    if(distance<-50){
+
+        previousImage();
+
+    }
+
+});
