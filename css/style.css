@@ -586,3 +586,57 @@ background-position:0% 50%;
         transform:translateX(100%) rotate(25deg);
     }
 }
+/* ===========================
+      Floating Hearts
+=========================== */
+
+#hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+}
+
+.heart{
+
+    position:absolute;
+
+    bottom:-40px;
+
+    color:rgba(255,255,255,.35);
+
+    animation:floatHeart linear forwards;
+
+}
+
+@keyframes floatHeart{
+
+    from{
+
+        transform:
+            translateY(0)
+            scale(.6);
+
+        opacity:0;
+
+    }
+
+    10%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:
+            translateY(-110vh)
+            rotate(360deg)
+            scale(1.5);
+
+        opacity:0;
+
+    }
+
+}
