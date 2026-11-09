@@ -66,3 +66,24 @@ openBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
     overlay.classList.remove("show");
 });
+// ===== Gallery Auto Load =====
+
+const galleryGrid = document.getElementById("galleryGrid");
+
+if (galleryGrid) {
+
+    for (let i = 1; i <= 27; i++) {
+
+        const card = document.createElement("div");
+        card.className = "photo-card";
+
+        const img = document.createElement("img");
+        img.src = `assets/images/photo${i}.jpg`;
+        img.alt = `Memory ${i}`;
+        img.loading = "lazy";
+
+        card.appendChild(img);
+        galleryGrid.appendChild(card);
+    }
+
+}
