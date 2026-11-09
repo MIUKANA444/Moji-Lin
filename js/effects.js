@@ -285,3 +285,177 @@ window.addEventListener("resize",()=>{
     generateStars();
 
 });
+/* =========================================================
+   EFFECTS.JS
+   Part 3 - Scroll Animation + Parallax + Mouse Glow
+========================================================= */
+
+/* =========================================================
+   Scroll Fade Animation
+========================================================= */
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach((entry) => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.classList.add("show");
+
+        }
+
+    });
+
+},{
+    threshold:0.15
+});
+
+document.querySelectorAll(
+    ".photo-card,.glass,.gallery h2,.footer,.letter"
+).forEach((el)=>{
+
+    el.classList.add("hidden");
+
+    observer.observe(el);
+
+});
+
+/* =========================================================
+   Glass Parallax
+========================================================= */
+
+const glass = document.querySelector(".glass");
+
+if(glass){
+
+    document.addEventListener("mousemove",(e)=>{
+
+        const x =
+            (window.innerWidth/2-e.clientX)/35;
+
+        const y =
+            (window.innerHeight/2-e.clientY)/35;
+
+        glass.style.transform=
+            `rotateY(${-x}deg)
+             rotateX(${y}deg)
+             translateY(-6px)`;
+
+    });
+
+    document.addEventListener("mouseleave",()=>{
+
+        glass.style.transform="";
+
+    });
+
+}
+
+/* =========================================================
+   Mouse Glow
+========================================================= */
+
+const glow=document.createElement("div");
+
+glow.id="cursorGlow";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",(e)=>{
+
+    glow.style.left=e.clientX+"px";
+
+    glow.style.top=e.clientY+"px";
+
+});
+
+/* =========================================================
+   Button Hover
+========================================================= */
+
+document.querySelectorAll("button").forEach(btn=>{
+
+    btn.addEventListener("mouseenter",()=>{
+
+        btn.animate([
+
+            {
+                transform:"scale(1)"
+            },
+
+            {
+                transform:"scale(1.08)"
+            },
+
+            {
+                transform:"scale(1)"
+            }
+
+        ],{
+
+            duration:350
+
+        });
+
+    });
+
+});
+
+/* =========================================================
+   Gallery Hover Tilt
+========================================================= */
+
+document.querySelectorAll(".photo-card").forEach(card=>{
+
+    card.addEventListener("mousemove",(e)=>{
+
+        const rect=card.getBoundingClientRect();
+
+        const x=e.clientX-rect.left;
+
+        const y=e.clientY-rect.top;
+
+        const rotateY=(x-rect.width/2)/18;
+
+        const rotateX=-(y-rect.height/2)/18;
+
+        card.style.transform=`
+            perspective(800px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateY(-8px)
+        `;
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.transform="";
+
+    });
+
+});
+
+/* =========================================================
+   Random Floating Glow
+========================================================= */
+
+setInterval(()=>{
+
+    const glow=document.createElement("div");
+
+    glow.className="floatingGlow";
+
+    glow.style.left=Math.random()*100+"vw";
+
+    glow.style.top=Math.random()*100+"vh";
+
+    document.body.appendChild(glow);
+
+    setTimeout(()=>{
+
+        glow.remove();
+
+    },5000);
+
+},2000);
