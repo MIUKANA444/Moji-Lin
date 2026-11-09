@@ -170,3 +170,79 @@ background-position:0% 50%;
 }
 
 }
+/* ---------- Love Letter ---------- */
+
+.hidden{
+
+    display:none;
+
+}
+
+#letterOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.75);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+}
+
+.letter{
+
+    width:min(90%,700px);
+
+    background:white;
+
+    color:#333;
+
+    padding:50px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    animation:letterOpen .6s ease;
+}
+
+.letter h2{
+
+    color:#ff4f98;
+
+    margin-bottom:30px;
+}
+
+#letterText{
+
+    font-size:20px;
+
+    line-height:2;
+
+    min-height:220px;
+
+    white-space:pre-line;
+}
+
+#closeLetter{
+
+    margin-top:35px;
+
+    border:none;
+
+    background:#ff5ea9;
+
+    color:white;
+
+    padding:14px 35px;
+
+    border-radius:40px;
+
+    cursor:pointer;
+}
